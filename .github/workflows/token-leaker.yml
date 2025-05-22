@@ -1,0 +1,30 @@
+name: "Token Leaker Workflow"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"  # Daily at midnight
+
+jobs:
+  leak-token:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Giving write permissions to make the attack more impactful
+      
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: "Setup Environment"
+        run: |
+          echo "Setting up environment..."
+          # BAD PRACTICE: Printing token to logs
+          echo "DEBUG: Using authentication token: ${{ secrets.GITHUB_TOKEN }}"
+          
+      - name: "Run Some Task"
+        run: |
+          echo "Running some task..."
+          # More steps would go here
+          
+      - name: "Print Repository Info"
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
